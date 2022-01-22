@@ -25,14 +25,14 @@ pub trait Service: Send + Sync {
 /// that returns a response wins.
 ///
 /// Only available with the `async` feature.
-pub struct Server<'a, T: Send + Sync> {
+pub struct Server<T: Send + Sync> {
     /// Services that the server should invoke for every request.
-    services: Vec<&'a Box<dyn Service<Data = T>>>,
+    services: Vec<Box<dyn Service<Data = T>>>,
 }
 
-impl<'a, T: Send + Sync> Server<'a, T> {
+impl<T: Send + Sync> Server<T> {
     /// Create a new server.
-    pub fn new(services: Vec<&'a Box<dyn Service<Data = T>>>) -> Self {
+    pub fn new(services: Vec<Box<dyn Service<Data = T>>>) -> Self {
         Self { services }
     }
 
